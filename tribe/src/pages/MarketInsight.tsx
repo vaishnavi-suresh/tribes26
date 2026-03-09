@@ -1,20 +1,12 @@
 import { useState } from 'react'
 import { chatCompletion, type OpenRouterModel } from '../api/openrouter'
-import { finrobotIndustryAnalysis } from '../api/finrobot'
-import { fingptMarketAnalysis } from '../api/fingpt'
 import { MARKET_INSIGHT_SYSTEM_PROMPT, buildMarketInsightPrompt } from '../prompts'
 import '../App.css'
 
-const OPENROUTER_MODELS = [
+const MODELS = [
   { id: 'openai/gpt-4o' as const, name: 'GPT-4o' },
   { id: 'anthropic/claude-3.5-sonnet' as const, name: 'Claude 3.5 Sonnet' },
   { id: 'google/gemini-2.5-pro' as const, name: 'Gemini 2.5 Pro' },
-] as const
-
-const MODELS = [
-  ...OPENROUTER_MODELS,
-  { id: 'finrobot' as const, name: 'FinRobot' },
-  { id: 'fingpt' as const, name: 'FinGPT' },
 ] as const
 
 export type ModelId = (typeof MODELS)[number]['id']
@@ -41,17 +33,12 @@ export function MarketInsight() {
     setError(null)
 
     try {
-      const content =
-        model === 'finrobot'
-          ? await finrobotIndustryAnalysis({ industryOrMarket: prompt.trim(), apiKey })
-          : model === 'fingpt'
-            ? await fingptMarketAnalysis({ industryOrMarket: prompt.trim(), apiKey })
-            : await chatCompletion({
-              model: model as OpenRouterModel,
-              systemPrompt: MARKET_INSIGHT_SYSTEM_PROMPT,
-              userPrompt: buildMarketInsightPrompt(prompt),
-              apiKey,
-            })
+      const content = await chatCompletion({
+        model: model as OpenRouterModel,
+        systemPrompt: MARKET_INSIGHT_SYSTEM_PROMPT,
+        userPrompt: buildMarketInsightPrompt(prompt),
+        apiKey,
+      })
       setDeepDive(content)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate deep dive')
@@ -111,9 +98,7 @@ export function MarketInsight() {
 
       {(isLoading || deepDive) && (
         <section className="output-section">
-          <h2>
-            {model === 'fingpt' ? 'FinGPT Analysis' : 'Industry Deep Dive'}
-          </h2>
+          <h2>Industry Deep Dive</h2>
           {isLoading ? (
             <div className="loading-placeholder">
               <div className="loading-bar" />
