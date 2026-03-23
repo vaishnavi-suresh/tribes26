@@ -19,6 +19,12 @@ export function Layout() {
           >
             Document Analysis
           </NavLink>
+          <NavLink
+            to="/financials"
+            className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`}
+          >
+            Financial Report
+          </NavLink>
         </nav>
       </aside>
       <main className="main">

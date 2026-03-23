@@ -5,8 +5,13 @@ import { extractTextFromFile } from '../utils/fileParser'
 import './DocumentAnalysis.css'
 
 const MODELS: { id: ChatModelId; name: string }[] = [
-  { id: 'gpt-4o', name: 'GPT-4o' },
-  { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash' },
+  { id: 'anthropic/claude-sonnet-4.6', name: 'Claude Sonnet 4.6' },
+  { id: 'anthropic/claude-opus-4.6', name: 'Claude Opus 4.6' },
+  { id: 'openai/gpt-5.4', name: 'GPT-5.4' },
+  { id: 'google/gemini-3.1-pro', name: 'Gemini 3.1 Pro' },
+  { id: 'openai/gpt-4o', name: 'GPT-4o' },
+  { id: 'google/gemini-2.0-flash-001', name: 'Gemini 2.0 Flash' },
+  { id: 'meta-llama/llama-3.1-70b-instruct', name: 'Llama 3.1 70B' },
 ]
 
 const ACCEPT_TYPES = '.pdf,.csv,.txt,.json,.md'
@@ -24,8 +29,7 @@ export function DocumentAnalysis() {
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const openaiKey = import.meta.env.VITE_OPENAI_API_KEY
-  const geminiKey = import.meta.env.VITE_GEMINI_API_KEY
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   const processFiles = useCallback(async (fileList: FileList | null) => {
     if (!fileList?.length) return
@@ -79,12 +83,8 @@ export function DocumentAnalysis() {
       setError('Add at least one file')
       return
     }
-    if (model === 'gpt-4o' && !openaiKey) {
-      setError('Add VITE_OPENAI_API_KEY to your .env file')
-      return
-    }
-    if (model === 'gemini-2.0-flash' && !geminiKey) {
-      setError('Add VITE_GEMINI_API_KEY to your .env file')
+    if (!apiKey) {
+      setError('Add VITE_OPENROUTER_API_KEY to your .env file')
       return
     }
 
@@ -104,8 +104,7 @@ export function DocumentAnalysis() {
         model,
         systemPrompt: DOCUMENT_ANALYSIS_SYSTEM_PROMPT,
         userPrompt: `Analyze the following document(s):\n\n${combinedContent}`,
-        openaiKey: openaiKey ?? '',
-        geminiKey: geminiKey ?? '',
+        apiKey,
       })
       setAnalysis(content)
     } catch (err) {

@@ -1,0 +1,119 @@
+.fr-app {
+  max-width: 1100px;
+}
+
+.fr-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.fr-ticker-input {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+  width: 120px;
+  transition: border-color 0.2s;
+}
+
+.fr-ticker-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.fr-ticker-input::placeholder {
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.fr-ticker-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.fr-status {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.fr-charts-section {
+  margin-bottom: 2rem;
+}
+
+.fr-company-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fr-ticker-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(201, 162, 39, 0.15);
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+.fr-currency {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.fr-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fr-chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.fr-chart-card--half {
+  grid-column: 1 / -1;
+  max-width: 500px;
+}
+
+.fr-chart-card h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fr-narrative {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .fr-charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fr-chart-card--half {
+    max-width: 100%;
+  }
+}
